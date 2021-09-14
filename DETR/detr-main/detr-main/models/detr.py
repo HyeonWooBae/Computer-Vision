@@ -302,6 +302,8 @@ class MLP(nn.Module):
 
 
 def build(args):
+    # Define build function
+    
     # the `num_classes` naming here is somewhat misleading.
     # it indeed corresponds to `max_obj_id + 1`, where max_obj_id
     # is the maximum id for a class in your dataset. For example,
@@ -318,9 +320,16 @@ def build(args):
     device = torch.device(args.device)
 
     backbone = build_backbone(args)
+    #
+    # build_backbone function is in backbone.py
+    #
 
     transformer = build_transformer(args)
-
+    #
+    # build_transformer function is in transformer.py
+    #
+    
+    # DETR model is consist of backbone, transformer
     model = DETR(
         backbone,
         transformer,
@@ -348,8 +357,16 @@ def build(args):
         losses += ["masks"]
     criterion = SetCriterion(num_classes, matcher=matcher, weight_dict=weight_dict,
                              eos_coef=args.eos_coef, losses=losses)
+    #
+    # Compute the loss of DETR by using SetCrterion
+    #    
+    
     criterion.to(device)
     postprocessors = {'bbox': PostProcess()}
+    #
+    # convert the model's output to using with coco api
+    #
+    
     if args.masks:
         postprocessors['segm'] = PostProcessSegm()
         if args.dataset_file == "coco_panoptic":
