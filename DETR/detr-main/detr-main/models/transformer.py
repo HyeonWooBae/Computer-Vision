@@ -22,6 +22,9 @@ class Transformer(nn.Module):
                  activation="relu", normalize_before=False,
                  return_intermediate_dec=False):
         super().__init__()
+      #
+      # Set number of encoder, decoder and parameter factor, activation function
+      #
 
         encoder_layer = TransformerEncoderLayer(d_model, nhead, dim_feedforward,
                                                 dropout, activation, normalize_before)
@@ -272,7 +275,7 @@ class TransformerDecoderLayer(nn.Module):
 def _get_clones(module, N):
     return nn.ModuleList([copy.deepcopy(module) for i in range(N)])
 
-
+# Define build_transformer function
 def build_transformer(args):
     return Transformer(
         d_model=args.hidden_dim,
