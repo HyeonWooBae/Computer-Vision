@@ -14,14 +14,17 @@ import datasets
 import util.misc as utils
 from datasets import build_dataset, get_coco_api_from_dataset
 from engine import evaluate, train_one_epoch
+# Import folder name is "models" consist of 7 .py file
+# Find build_model : go to __init__.py
 from models import build_model
 
-#
-# import folder name is "models" consist of 7 .py file
-#
 
-# argparse : to add parameter's factor
+
 def get_args_parser():
+    #
+    # Define get_arg_parser, argparse : to set and add parameter's factor
+    #
+    
     parser = argparse.ArgumentParser('Set transformer detector', add_help=False)
     parser.add_argument('--lr', default=1e-4, type=float)
     parser.add_argument('--lr_backbone', default=1e-5, type=float)
@@ -107,6 +110,10 @@ def get_args_parser():
 
 
 def main(args):
+    #
+    # Define main function
+    #
+    
     utils.init_distributed_mode(args)
     print("git:\n  {}\n".format(utils.get_sha()))
 
@@ -121,13 +128,9 @@ def main(args):
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
-
-    model, criterion, postprocessors = build_model(args)
     
-    #
-    # go to __init_.py
-    #
-    
+    # Using build_model function to load model, criterion, postprocessors
+    model, criterion, postprocessors = build_model(args)   
     model.to(device)
 
     model_without_ddp = model
