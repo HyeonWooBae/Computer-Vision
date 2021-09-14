@@ -75,7 +75,7 @@ class PositionEmbeddingLearned(nn.Module):
         ], dim=-1).permute(2, 0, 1).unsqueeze(0).repeat(x.shape[0], 1, 1, 1)
         return pos
 
-
+# Define build_position_encoding function
 def build_position_encoding(args):
     N_steps = args.hidden_dim // 2
     if args.position_embedding in ('v2', 'sine'):
