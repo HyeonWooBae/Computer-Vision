@@ -16,6 +16,9 @@ from datasets import build_dataset, get_coco_api_from_dataset
 from engine import evaluate, train_one_epoch
 from models import build_model
 
+#
+# import folder name is "models" consist of 7 .py file
+#
 
 # argparse : to add parameter's factor
 def get_args_parser():
@@ -120,6 +123,11 @@ def main(args):
     random.seed(seed)
 
     model, criterion, postprocessors = build_model(args)
+    
+    #
+    # go to __init_.py
+    #
+    
     model.to(device)
 
     model_without_ddp = model
