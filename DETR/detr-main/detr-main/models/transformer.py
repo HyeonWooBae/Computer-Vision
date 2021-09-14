@@ -288,7 +288,7 @@ def build_transformer(args):
         return_intermediate_dec=True,
     )
 
-
+# Select to activation function
 def _get_activation_fn(activation):
     """Return an activation function given a string"""
     if activation == "relu":
