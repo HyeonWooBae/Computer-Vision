@@ -14,7 +14,9 @@ import datasets
 import util.misc as utils
 from datasets import build_dataset, get_coco_api_from_dataset
 from engine import evaluate, train_one_epoch
-# Import folder name is "models" consist of 7 .py file
+
+# Import folder name "models" by build_model function
+# not only import one .py file, but import several .py file
 # Find build_model : go to __init__.py
 from models import build_model
 
