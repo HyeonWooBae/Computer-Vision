@@ -15,7 +15,9 @@ from util.misc import NestedTensor, is_main_process
 
 from .position_encoding import build_position_encoding
 
-
+# Batchnormalization update parameter with many small batch when cannot treat all data at once by limitation of computing.
+# It can be block if distribution is all different.
+# To solve this problem, proceeding normalization to each batch can make ditribution identical
 class FrozenBatchNorm2d(torch.nn.Module):
     """
     BatchNorm2d where the batch statistics and the affine parameters are fixed.
@@ -54,7 +56,7 @@ class FrozenBatchNorm2d(torch.nn.Module):
         bias = b - rm * scale
         return x * scale + bias
 
-
+# Basically organize resnet50
 class BackboneBase(nn.Module):
 
     def __init__(self, backbone: nn.Module, train_backbone: bool, num_channels: int, return_interm_layers: bool):
