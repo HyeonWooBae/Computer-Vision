@@ -24,7 +24,12 @@ from models import build_model
 
 def get_args_parser():
     #
-    # Define get_arg_parser, argparse : to set and add parameter's factor
+    # Define get_arg_parser
+    # argparse : To set and add parameter's factor
+    # To use when we want to make a different motion by giving a new factor value when calling
+    # To use while training with changing factor value at terminal
+    # No output, when executing the main function, information on this part will be recieved as a parent object
+    # The name of argument, default, type, additional explanations are written
     #
     
     parser = argparse.ArgumentParser('Set transformer detector', add_help=False)
@@ -132,6 +137,8 @@ def main(args):
     random.seed(seed)
     
     # Using build_model function to load model, criterion, postprocessors
+    # Output of build model enters the variable model, criterion, postprocessors
+    # To confirm this output go to detr.py
     model, criterion, postprocessors = build_model(args)   
     model.to(device)
 
@@ -149,6 +156,7 @@ def main(args):
             "lr": args.lr_backbone,
         },
     ]
+    # Using obtimizer Adam
     optimizer = torch.optim.AdamW(param_dicts, lr=args.lr,
                                   weight_decay=args.weight_decay)
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, args.lr_drop)
@@ -202,6 +210,7 @@ def main(args):
             utils.save_on_master(coco_evaluator.coco_eval["bbox"].eval, output_dir / "eval.pth")
         return
 
+    # After here is training and evaluation part
     print("Start training")
     start_time = time.time()
     for epoch in range(args.start_epoch, args.epochs):
