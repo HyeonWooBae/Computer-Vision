@@ -47,7 +47,7 @@ class PositionEmbeddingSine(nn.Module):
         pos = torch.cat((pos_y, pos_x), dim=3).permute(0, 3, 1, 2)
         return pos
 
-
+# Way to initialize it to N[0,0.1] instead of sine and the allow the model to learn up to the value that will go into the position embedding tensor.
 class PositionEmbeddingLearned(nn.Module):
     """
     Absolute pos embedding, learned.
