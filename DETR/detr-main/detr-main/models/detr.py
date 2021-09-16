@@ -64,7 +64,8 @@ class DETR(nn.Module):
         src, mask = features[-1].decompose()
         assert mask is not None
         hs = self.transformer(self.input_proj(src), mask, self.query_embed.weight, pos[-1])[0]
-        
+        # Data passed backbone pass by transformer
+        # Theoretically, output of transformer is attention score, final output of DETR need to own class of object and information of box
         
         # outputs_class has class of object
         # outputs_coord has information of box
@@ -75,6 +76,8 @@ class DETR(nn.Module):
             out['aux_outputs'] = self._set_aux_loss(outputs_class, outputs_coord)
         return out
     
+    
+    #Basically, not need to using auxiliary loss because it need to check of only helping training of transformer decoder
     @torch.jit.unused
     def _set_aux_loss(self, outputs_class, outputs_coord):
         # this is a workaround to make torchscript happy, as torchscript
@@ -83,7 +86,8 @@ class DETR(nn.Module):
         return [{'pred_logits': a, 'pred_boxes': b}
                 for a, b in zip(outputs_class[:-1], outputs_coord[:-1])]
 
-
+# Output of DETR
+# Process of find best box by bipartite matching for one box per object
 class SetCriterion(nn.Module):
     """ This class computes the loss for DETR.
     The process happens in two steps:
